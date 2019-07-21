@@ -150,6 +150,6 @@ end
 function add_rnd_square(center, c) 
     for i = 1:1000 
         # Randomly sample 1000 particles in the square
-        push!(particles, (Particle2(([(rand()*2-1)*0.08, (rand()*2-1)*0.08] .+ center), v, F, C, Jp, c)));
+        push!(particles, (Particle(([(rand()*2-1)*0.08, (rand()*2-1)*0.08] .+ center), v, F, C, Jp, c)));
     end
 end
