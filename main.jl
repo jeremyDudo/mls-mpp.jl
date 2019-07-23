@@ -7,7 +7,6 @@ function main()
     """
     I fear that advancing each square separately might be a bad idea, but that can be an easy fix if I can animate anything
     """
-
     # setup 
 
     dt = 0.1
@@ -23,7 +22,6 @@ function main()
 
         scatter!((square1, square2, square3)...)
     end every 10
-
-
-
 end
+
+main()

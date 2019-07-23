@@ -1,3 +1,11 @@
+"""
+This is an attempt to have a 1-1 conversion of the original scripts
+link:
+
+But this is obtuse to debug in Julia as-is :: will break into sub functions to fix this (it doesn't work atm)
+"""
+
+
 using LinearAlgebra, Random;
 include("outer_product.jl")
 include("mulMat.jl")
@@ -24,8 +32,10 @@ E = 1e4;
 plastic = 1;
 
 v = [0, 0];       # velocity
-F = [1, 0, 0, 1];  # Deformation tensor
-C = [0, 0, 0, 0];  # Cauchy tensor
+#*temp
+F = [1 0; 0 1];  # Deformation tensor
+#*temp
+C = [0 0; 0 0];  # Cauchy tensor
 Jp = 1;          # Jacobian determinant (scalar)
 
 mutable struct Particle
@@ -38,7 +48,7 @@ mutable struct Particle
 end
 
 particles = [];
-grid = [];    # velocity + mass, node_res = cell_res + 1
+# grid = [];    # velocity + mass, node_res = cell_res + 1
 
 gridIndex(i, j) = i + (n+1)*j;
 
@@ -171,6 +181,7 @@ function advance!(party, dt)
         # Cauchy stress times dt and inv_dx
         # original taichi: stress = -4*inv_dx*inv_dx*dt*vol*( 2*mu*(p.F-r)*transposed(p.F) + lambda*(J-1)*J )
         # (in taichi matrices are coded transposed)
+        println(p.F)
         J =       det(p.F);           # Current volume
         r, s =    polar_decomp(p.F);  # Polar decomp. for fixed corotated model
         k1 =      -4*inv_dx*inv_dx*dt*vol;
