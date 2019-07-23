@@ -18,12 +18,7 @@ function advance!(party, dt)
     μ₀ = E / (2 * (1 + ν));
     λ₀ = E * ν / ((1+ν) * (1 - 2 * ν));
     plastic = 1;
-    v = [0, 0];       # velocity
-    #*temp
-    F = [1 0; 0 1];  # Deformation tensor
-    #*temp
-    C = [0 0; 0 0];  # Cauchy tensor
-    Jp = 1;          # Jacobian determinant (scalar)
+
     # Reset grid
     grid = zeros((n+1)^2,3)
 

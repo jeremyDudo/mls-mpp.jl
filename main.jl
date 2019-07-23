@@ -26,3 +26,10 @@ function main()
 end
 
 main()
+
+function test()
+    dt = 1;
+    ss = add_rnd_square2([0.55,0.45], 0xED553B);
+    advance!(ss, dt);
+end
+test()
