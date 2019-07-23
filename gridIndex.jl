@@ -1,0 +1,1 @@
+gridIndex(i, j, n) = i + (n+1)*j;

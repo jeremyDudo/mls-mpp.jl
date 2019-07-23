@@ -1,6 +1,12 @@
-function grid_to_particles!()
+include("outer_product.jl")
+include("gridIndex.jl")
+include("mulMat.jl")
+
+using LinearAlgebra;
+
+function grid_to_particles!(party, n, grid, inv_dx, plastic)
     for p in party
-        base_coord= floor( Int, (inv_dx .* p.x .- 0.5));# element-wise floor
+        base_coord= floor.( Int, (inv_dx .* p.x .- 0.5));# element-wise floor
         fx = ((p.x .* inv_dx) .- base_coord); # base position in grid units
         w = [
             (0.5 .* map(x -> x^2, (1.5 .- fx))),
@@ -11,7 +17,7 @@ function grid_to_particles!()
         p.v = [0, 0];
         for i = 1:3, j = 1:3 
             dpos =    [i, j] .- fx;
-            ii =      gridIndex(base_coord[1] + i, base_coord[2] + j);
+            ii =      gridIndex(base_coord[1] + i, base_coord[2] + j, n);
             weight =  w[i][1] * w[j][2];
             p.v =     (p.v .+ (grid[ii] .* weight)); # velocity
             p.C =     map(x -> x*4*inv_dx, p.C .+ outer_product((grid[ii] .* weight), dpos)); # APIC (affine particle-in-cell); p.C is the affine momentum

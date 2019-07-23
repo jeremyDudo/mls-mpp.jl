@@ -1,4 +1,12 @@
-function particles_to_grid!()
+include("outer_product.jl")
+include("gridIndex.jl")
+include("mulMat.jl")
+include("polar_decomp.jl")
+include("mulMatVec.jl")
+
+using LinearAlgebra, Random;
+
+function particles_to_grid!(party, n, grid, dx, inv_dx, dt, vol, hardening, particle_mass, μ₀, λ₀)
     for p in party 
         base_coord = floor.( Int, (inv_dx .* p.x .- 0.5) ); # element-wise floor
         fx = inv_dx .* p.x .- base_coord; # base position in grid units
@@ -30,7 +38,7 @@ function particles_to_grid!()
         for i = 1:3, j = 1:3
             # scatter to grid
             dpos =    [(i-fx[1])*dx, (j-fx[2])*dx];
-            ii =      gridIndex(base_coord[1] + i, base_coord[2] + j);
+            ii =      gridIndex(base_coord[1] + i, base_coord[2] + j, n);
             weight =  w[i][1] * w[j][2];
             grid[ii] =      (grid[ii] .+ ((mv .+ [mulMatVec(affine, dpos)[1], mulMatVec(affine, dpos)[2], 0]) .* weight));
         end
