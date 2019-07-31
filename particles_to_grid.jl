@@ -41,10 +41,11 @@ function particles_to_grid!(party, n, grid, dx, inv_dx, dt, vol, hardening, part
             # scatter to grid
             dpos =    [(i-fx[1])*dx, (j-fx[2])*dx];
             
-            # ii =      gridIndex(base_coord[1] + i, base_coord[2] + j, n);
+            ii =      gridIndex(base_coord[1] + i, base_coord[2] + j, n);
             
             weight =  w[i][1] * w[j][2];
-            grid[i,j] = (grid[i,j] .+ ((mv .+ [mulMatVec(affine, dpos)[1], mulMatVec(affine, dpos)[2], 0]) .* weight))[1];
+
+            grid[ii] = (grid[ii] .+ ((mv .+ [mulMatVec(affine, dpos)[1], mulMatVec(affine, dpos)[2], 0]) .* weight));
         end
     end
 end
