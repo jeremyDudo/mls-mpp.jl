@@ -20,7 +20,7 @@ function advance!(party, dt)
     plastic = 1;
 
     # Reset grid
-    grid = zeros((n+1)^2,3)
+    grid = [zeros(3) for _ in 1:(n+1)^2]
 
     # 1. Particles to grid
     particles_to_grid!(party, n, grid, dx, inv_dx, dt, vol, hardening, particle_mass, μ₀, λ₀)
@@ -30,6 +30,6 @@ function advance!(party, dt)
     mod_grid_velocities!(n, grid, dt, boundary)
 
     # 2. Grid to particle
-    grid_to_particles!(party, n, grid, inv_dx, plastic)
+    grid_to_particles!(party, n, grid, inv_dx, plastic, dt)
 
 end
