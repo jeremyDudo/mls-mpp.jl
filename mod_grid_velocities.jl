@@ -4,7 +4,7 @@ function mod_grid_velocities!(n, grid, dt, boundary)
     for i = 1:n, j = 1:n
         # for all grid nodes
         ii = gridIndex(i, j, n);
-        if (grid[ii][2] > 0)  # no need for epsilon here
+        if (grid[ii][3] > 0)  # no need for epsilon here
             grid[ii] =  map(x -> x/grid[ii][3], grid[ii]); # normalize by mass
             grid[ii] =  grid[ii] .+ [0, -200*dt, 0]; # add gravity
             x =   i/n;
